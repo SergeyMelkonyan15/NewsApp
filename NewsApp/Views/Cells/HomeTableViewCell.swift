@@ -8,15 +8,21 @@
 import UIKit
 
 class HomeTableViewCell: UITableViewCell {
+
     // MARK: - Subviews
     @IBOutlet private var articleImageView: UIImageView!
     @IBOutlet private var articleTitle: UILabel!
     @IBOutlet private var articleDate: UILabel!
     @IBOutlet private var articleAuthors: UILabel!
 
+    // MARK: - ViewModel
+    var viewModel: HomeTableViewCellViewModel?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        viewModel = HomeTableViewCellViewModel()
+        viewModel?.delegate = self
     }
 
     override func layoutSubviews() {
@@ -25,10 +31,31 @@ class HomeTableViewCell: UITableViewCell {
         articleImageView.layer.cornerRadius = articleImageView.bounds.height / 2
     }
 
-    func configure(withImage image: String, articleTitle: String, articleDate: String, articleBriefDescription: String) {
-        self.articleImageView.image = UIImage(named: image)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        self.articleImageView.image = UIImage(systemName: "photo.circle")
+    }
+
+    func configure(withImageURL url: String?, articleTitle: String, articleDate: String, articleBriefDescription: String) {
+        Task {
+            await viewModel?.getImage(withURL: url)
+        }
         self.articleTitle.text = articleTitle
         self.articleDate.text = articleDate
         self.articleAuthors.text = articleBriefDescription
+    }
+}
+
+
+extension HomeTableViewCell: HomeTableViewCellViewModelDelegate {
+    func didFinishFetchingImage(imageData: Data) {
+        DispatchQueue.main.async {
+            self.articleImageView.image = UIImage(data: imageData)
+        }
+    }
+
+    func didFailedFetchImage() {
+        articleImageView.image = UIImage(systemName: "photo.circle")
     }
 }
