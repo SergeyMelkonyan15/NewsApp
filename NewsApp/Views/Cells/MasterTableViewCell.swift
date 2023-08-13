@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeTableViewCell: UITableViewCell {
+class MasterTableViewCell: UITableViewCell {
 
     // MARK: - Subviews
     @IBOutlet private var articleImageView: UIImageView!
@@ -16,12 +16,12 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet private var articleAuthors: UILabel!
 
     // MARK: - ViewModel
-    var viewModel: HomeTableViewCellViewModel?
+    var viewModel: MasterTableViewCellViewModel?
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        viewModel = HomeTableViewCellViewModel()
+        viewModel = MasterTableViewCellViewModel()
         viewModel?.delegate = self
     }
 
@@ -49,7 +49,7 @@ class HomeTableViewCell: UITableViewCell {
 }
 
 // MARK: - Delegation
-extension HomeTableViewCell: HomeTableViewCellViewModelDelegate {
+extension MasterTableViewCell: HomeTableViewCellViewModelDelegate {
     func didFinishFetchingImage(imageData: Data) {
         DispatchQueue.main.async {
             self.articleImageView.image = UIImage(data: imageData)

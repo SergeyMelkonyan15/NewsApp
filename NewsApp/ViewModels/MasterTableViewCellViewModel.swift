@@ -7,14 +7,14 @@
 
 import Foundation
 
-final class HomeTableViewCellViewModel {
+final class MasterTableViewCellViewModel {
 
     weak var delegate: HomeTableViewCellViewModelDelegate?
 
     func getImage(withURL url: String?) async {
         guard let url else { return; delegate?.didFailedFetchImage() }
         do {
-            let imageData = try await Network.downloadImageData(fromURL: URL(string: url))
+            let imageData = try await NetworkUtils.downloadImageData(fromURL: URL(string: url))
             delegate?.didFinishFetchingImage(imageData: imageData)
         } catch {
             delegate?.didFailedFetchImage()

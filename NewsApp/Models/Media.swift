@@ -8,6 +8,7 @@
 import Foundation
 
 struct Media: Decodable {
+    // TODO replace the list of Metadata with "mediaImageSmall" and "mediaImageBig". Leaving this way to match the API response structure
     var mediaMetadata: [MetaData]
 
     enum CodingKeys: String, CodingKey {

@@ -8,7 +8,7 @@
 import Foundation
 
 enum API {
-    static let baseURL = "https://api.nytimes.com/svc/mostpopular/v2/"
+    static let baseURL = "https://api.nytimes.com/"
 
     enum EndPoint {
         static let daily = "svc/mostpopular/v2/viewed/1.json"
@@ -29,7 +29,7 @@ enum RequestError: Error {
     case apiError(errorTitle: String)
 }
 
-enum ImageFormat: String, CaseIterable {
+enum ImageSize: String, CaseIterable {
     case standart = "Standard Thumbnail"
     case medium = "mediumThreeByTwo210"
     case big = "mediumThreeByTwo440"

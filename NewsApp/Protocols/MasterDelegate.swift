@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol HomeViewModelDelegate: AnyObject {
+protocol MasterDelegate: AnyObject {
+    func didStartDataLoading()
     func didFetchArticle(article: ArticleResponse)
     func didGetError(errorMessage: String)
 }
