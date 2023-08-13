@@ -37,6 +37,7 @@ class HomeTableViewCell: UITableViewCell {
         self.articleImageView.image = UIImage(systemName: "photo.circle")
     }
 
+    // configure subviews values
     func configure(withImageURL url: String?, articleTitle: String, articleDate: String, articleBriefDescription: String) {
         Task {
             await viewModel?.getImage(withURL: url)
@@ -47,7 +48,7 @@ class HomeTableViewCell: UITableViewCell {
     }
 }
 
-
+// MARK: - Delegation
 extension HomeTableViewCell: HomeTableViewCellViewModelDelegate {
     func didFinishFetchingImage(imageData: Data) {
         DispatchQueue.main.async {

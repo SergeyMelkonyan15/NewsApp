@@ -8,6 +8,8 @@
 import Foundation
 
 final class Network {
+
+    // Daily articles request
     static func getDailyArticle() async throws -> ArticleResponse {
         let completeURL = getCompleteURL(forPath: API.EndPoint.daily)
 
@@ -25,6 +27,7 @@ final class Network {
         }
     }
 
+    // Weekly articles request
     static func getWeeklyArticle() async throws -> ArticleResponse {
         let completeURL = getCompleteURL(forPath: API.EndPoint.weekly)
 
@@ -42,6 +45,7 @@ final class Network {
         }
     }
 
+    // 30 days articles request, 30 days not month because month can also be 31 days
     static func getThirtyDaysArticle() async throws -> ArticleResponse {
         let completeURL = getCompleteURL(forPath: API.EndPoint.thirtyDays)
 

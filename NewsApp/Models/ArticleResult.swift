@@ -13,6 +13,8 @@ struct ArticleResult: Decodable {
     var byLine: String
     var title: String
     var abstract: String
+    var section: String
+    var type: String
     var media: [Media]
 
     enum CodingKeys: String, CodingKey {
@@ -22,5 +24,7 @@ struct ArticleResult: Decodable {
         case title
         case abstract
         case media
+        case section
+        case type
     }
 }

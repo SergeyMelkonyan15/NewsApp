@@ -28,3 +28,9 @@ enum RequestError: Error {
     case wrongURL(errorTitle: String)
     case apiError(errorTitle: String)
 }
+
+enum ImageFormat: String, CaseIterable {
+    case standart = "Standard Thumbnail"
+    case medium = "mediumThreeByTwo210"
+    case big = "mediumThreeByTwo440"
+}

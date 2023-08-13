@@ -31,6 +31,7 @@ final class HomeViewController: UIViewController {
 
     // MARK: - Properties
     private let heightRatioForCellHeight = 0.13
+    private let defaultImageFormatIndex = 0
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -93,6 +94,34 @@ final class HomeViewController: UIViewController {
         }
     }
 
+    private func configureCell(cell: HomeTableViewCell, articles: ArticleResponse, indexPath: IndexPath) {
+        let articleResult = articles.results[indexPath.row]
+        let articleImageURL = getImageURL(forFormat: ImageFormat.standart.rawValue, articleResult: articleResult)
+        let articleTitle = articleResult.title
+        let articleDate = articleResult.publishedDate
+        let articleCreator = articleResult.byLine
+
+        cell.configure(
+            withImageURL: articleImageURL,
+            articleTitle: articleTitle,
+            articleDate: articleDate,
+            articleBriefDescription: articleCreator
+        )
+    }
+
+    private func getImageURL(forFormat imageFormat: ImageFormat.RawValue, articleResult: ArticleResult) -> String? {
+        var imageURL: String?
+        guard let media = articleResult.media.first else { return nil }
+        for (index, article) in media.mediaMetadata.enumerated() {
+            if article.format == imageFormat {
+                imageURL = articleResult.media.first?.mediaMetadata[index].imageURL
+            } else {
+                imageURL = articleResult.media.first?.mediaMetadata[defaultImageFormatIndex].imageURL
+            }
+        }
+        return imageURL
+    }
+
     // MARK: - Callbacks
     @IBAction func filterTapped(_ sender: UISegmentedControl) {
         guard let homeViewModel else { return }
@@ -114,20 +143,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         else { fatalError() }
 
         if let articles {
-            let articleResult = articles.results[indexPath.row]
-            let articleImageURL = articleResult.media.first?.mediaMetadata[0].imageURL
-            let articleTitle = articleResult.title
-            let articleDate = articleResult.publishedDate
-            let articleCreator = articleResult.byLine
-            
-            cell.configure(
-                withImageURL: articleImageURL,
-                articleTitle: articleTitle,
-                articleDate: articleDate,
-                articleBriefDescription: articleCreator
-            )
             loaderActivityIndicator.stopAnimating()
             loaderActivityIndicator.isHidden = true
+            configureCell(cell: cell, articles: articles, indexPath: indexPath)
         } else {
             loaderActivityIndicator.isHidden = false
         }
@@ -136,6 +154,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         homeTableView.deselectRow(at: indexPath, animated: true)
+        var detailViewModel = DetailViewModel()
+        let detailViewController = DetailViewController(detailViewModel: detailViewModel)
+        if let articles {
+            detailViewModel.updateArticles(withArticles: articles.results[indexPath.row])
+        }
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
