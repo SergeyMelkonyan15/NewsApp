@@ -90,7 +90,7 @@ class DetailViewController: UIViewController {
     private func setImageViewImage() {
         Task {
             // using big image size
-            var imageUrl = detailViewModel?.getImageURL(bigImageSize: ImageSize.big.rawValue)
+            let imageUrl = detailViewModel?.getImageURL(bigImageSize: ImageSize.big.rawValue)
             // downloading image from viewmodel
             let imageData = await detailViewModel?.getImage(withURL: imageUrl)
             if let imageData {

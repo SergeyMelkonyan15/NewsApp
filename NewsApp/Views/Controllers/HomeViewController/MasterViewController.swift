@@ -139,11 +139,11 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         // handling the navigation of the detail vc according to the device screen type
-//        if UIDevice.current.userInterfaceIdiom == .pad {
+        if UIDevice.current.userInterfaceIdiom == .pad {
             showDetailViewController(detailViewController, sender: self)
-//        } else {
-//            show(detailViewController, sender: self)
-//        }
+        } else {
+            show(detailViewController, sender: self)
+        }
 
     }
     
